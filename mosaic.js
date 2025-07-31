@@ -1,55 +1,71 @@
-function MakeArray(n) {
-  this.length = n;
-  for (var i = 1; i <= n; i++) {
-    this[i] = 0;
-  }
-  return this;
-}
+const FACE = [
+  "00000000000000",
+  "00001111111100",
+  "00010000000010",
+  "00100000000010",
+  "01000000000010",
+  "01000000000001",
+  "01001110111101",
+  "01000000100001",
+  "01000100101001",
+  "01000000100001",
+  "01000000100001",
+  "01000000100001",
+  "01000000100001",
+  "01000000100001",
+  "01000011100001",
+  "01000000000010",
+  "01000000000010",
+  "01000111110010",
+  "00100000000010",
+  "00100000000100",
+  "00010000000100",
+  "00001000001000",
+  "00000100010000",
+  "00000011100000",
+  "00000000000000",
+];
 
-function MosaicMaker() {
-  document.write("<table border=0 width=280 cellspacing=0 cellpadding=0>");
-  row = new MakeArray(25);
-  row[1] = "00000000000000";
-  row[2] = "00001111111100";
-  row[3] = "00010000000010";
-  row[4] = "00100000000010";
-  row[5] = "01000000000010";
-  row[6] = "01000000000001";
-  row[7] = "01001110111101";
-  row[8] = "01000000100001";
-  row[9] = "01000100101001";
-  row[10] = "01000000100001";
-  row[11] = "01000000100001";
-  row[12] = "01000000100001";
-  row[13] = "01000000100001";
-  row[14] = "01000000100001";
-  row[15] = "01000011100001";
-  row[16] = "01000000000010";
-  row[17] = "01000000000010";
-  row[18] = "01000111110010";
-  row[19] = "00100000000010";
-  row[20] = "00100000000100";
-  row[21] = "00010000000100";
-  row[22] = "00001000001000";
-  row[23] = "00000100010000";
-  row[24] = "00000011100000";
-  row[25] = "00000000000000";
+const IMAGE_WIDTH = 20;
 
-  for (var n = 1; n <= 25; n++) {
-    document.write("<tr>");
-    for (var c = 1; c <= 14; c++) {
-      var oldc = c - 1;
-      var giffy = row[n].substring(oldc, c);
-      if (giffy == "0") {
-        var imgsrc = "images/white.gif";
-      } else {
-        var imgsrc = "images/black.gif";
-      }
-      document.write(
-        "<td><img src=" + imgsrc + " width=20 height=20 border=0></td>",
-      );
+function createMosaic(parentElem, rows) {
+  const table = document.createElement("table");
+  table.classList.add("mosaic-table");
+  table.style.width = rows[0].length * IMAGE_WIDTH;
+  table.style.height = rows.length * IMAGE_WIDTH;
+
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    for (const c of row) {
+      const src = c === "0" ? "images/white.gif" : "images/black.gif";
+      const td = document.createElement("td");
+      const img = document.createElement("img");
+      img.width = IMAGE_WIDTH;
+      img.height = IMAGE_WIDTH;
+      img.src = src;
+      img.alt = c;
+      td.appendChild(img);
+      tr.appendChild(td);
     }
-    document.write("</tr>");
+    table.appendChild(tr);
   }
-  document.write("</table>");
+  parentElem.appendChild(table);
 }
+
+const soundCheckbox = document.getElementById("sound-checkbox");
+const soundPlayer = document.getElementById("sound-player");
+
+soundCheckbox.addEventListener("change", async function () {
+  if (soundCheckbox.checked) {
+    try {
+      await soundPlayer.play();
+    } catch (err) {
+      console.log(err);
+      soundCheckbox.checked = false;
+    }
+  } else {
+    soundPlayer.pause();
+  }
+});
+
+createMosaic(document.getElementById("mosaic"), FACE);

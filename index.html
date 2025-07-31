@@ -1,16 +1,19 @@
 <!doctype html>
 <html>
   <head>
-    <script src="mosaic.js"></script>
     <title>Mosaic Face</title>
+    <link rel="stylesheet" href="mosaic.css" />
   </head>
-  <body bgcolor="#FFFFFF">
-    <center>
-      <script language="JavaScript">
-        <!--
-        MosaicMaker();
-        //-->
-      </script>
-    </center>
+  <body>
+    <div class="mosaic-container">
+      <div id="mosaic"></div>
+    </div>
+    <div class="mosaic-container">
+      <div>
+        <audio id="sound-player" src="spikes.mp3" loop></audio>
+        <label>Sound? <input type="checkbox" id="sound-checkbox" /></label>
+      </div>
+    </div>
+    <script src="mosaic.js"></script>
   </body>
 </html>
