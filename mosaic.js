@@ -91,7 +91,7 @@ function parseMosaicRows(mosaicParam) {
       row.push(bits & 1n ? "1" : "0");
       bits = bits >> 1n;
     }
-    rows.push(row);
+    rows.push(row.join(""));
   }
   return rows;
 }
