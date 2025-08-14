@@ -1,3 +1,7 @@
+// Limit the number of cells per row/column.
+// (100 * 20)**2 = 4 * 10**6, already pretty hefty.
+const MAX_CELLS_PER_SIDE = 100;
+
 const FACE = [
   "00000000000000",
   "00001111111100",
@@ -26,13 +30,14 @@ const FACE = [
   "00000000000000",
 ];
 
-const IMAGE_WIDTH = 20;
+// Pixels size (width/height) for the individual GIFs.
+const IMAGE_PIXEL_SIZE = 20;
 
 function createMosaic(parentElem, rows) {
   const table = document.createElement("table");
   table.classList.add("mosaic-table");
-  table.style.width = rows[0].length * IMAGE_WIDTH;
-  table.style.height = rows.length * IMAGE_WIDTH;
+  table.style.width = rows[0].length * IMAGE_PIXEL_SIZE;
+  table.style.height = rows.length * IMAGE_PIXEL_SIZE;
 
   for (const row of rows) {
     const tr = document.createElement("tr");
@@ -40,8 +45,8 @@ function createMosaic(parentElem, rows) {
       const src = c === "0" ? "images/white.gif" : "images/black.gif";
       const td = document.createElement("td");
       const img = document.createElement("img");
-      img.width = IMAGE_WIDTH;
-      img.height = IMAGE_WIDTH;
+      img.width = IMAGE_PIXEL_SIZE;
+      img.height = IMAGE_PIXEL_SIZE;
       img.src = src;
       img.alt = c;
       td.appendChild(img);
@@ -74,12 +79,12 @@ function parseMosaicRows(mosaicParam) {
   }
   const parsed = /(\d+)x(\d+),([a-fA-F0-9]+)/.exec(mosaicParam);
   if (!parsed) {
-    console.log("Problem param img: " + mosaicParam);
+    console.log("Problem parsing m param: " + mosaicParam);
     return null;
   }
   const width = parseInt(parsed[1], 10);
   const height = parseInt(parsed[2], 10);
-  if (width > 1000 || height > 1000) {
+  if (width > MAX_CELLS_PER_SIDE || height > MAX_CELLS_PER_SIDE) {
     console.log(`width or height too big: ${width} x ${height}`);
     return null;
   }
