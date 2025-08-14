@@ -68,4 +68,35 @@ soundCheckbox.addEventListener("change", async function () {
   }
 });
 
-createMosaic(document.getElementById("mosaic"), FACE);
+function parseMosaicRows(mosaicParam) {
+  if (!mosaicParam) {
+    return null;
+  }
+  const parsed = /(\d+)x(\d+),([a-fA-F0-9]+)/.exec(mosaicParam);
+  if (!parsed) {
+    console.log("Problem param img: " + mosaicParam);
+    return null;
+  }
+  const width = parseInt(parsed[1], 10);
+  const height = parseInt(parsed[2], 10);
+  if (width > 1000 || height > 1000) {
+    console.log(`width or height too big: ${width} x ${height}`);
+    return null;
+  }
+  let bits = BigInt("0x" + parsed[3]);
+  const rows = [];
+  for (let i = 0; i < height; i++) {
+    const row = [];
+    for (let j = 0; j < width; j++) {
+      row.push(bits & 1n ? "1" : "0");
+      bits = bits >> 1n;
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+
+createMosaic(
+  document.getElementById("mosaic"),
+  parseMosaicRows(new URLSearchParams(location.search).get("m")) || FACE,
+);
