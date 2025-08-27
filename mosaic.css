@@ -1,13 +1,34 @@
+.edit-controls button {
+  padding-right: 10px;
+}
 .mosaic-container {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+.mosaic-edit-label {
+  background-color: white;
+  border: 0;
+  /* Add `display: block` to avoid extra vertical space: https://stackoverflow.com/a/2839654 */
+  display: block;
+  height: 20px;
+  padding: 0;
+  width: 20px;
+}
+.mosaic-edit-label:has(input:checked) {
+  background-color: black;
+}
+.mosaic-checkbox {
+  display: none;
 }
 .mosaic-table {
   border: 0;
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
+}
+.mosaic-table-editing {
+  border: 1px solid red;
 }
 .mosaic-table td {
   padding: 0;

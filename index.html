@@ -5,6 +5,16 @@
     <link rel="stylesheet" href="mosaic.css" />
   </head>
   <body>
+    <div id="edit-controls" style="display: none" class="mosaic-container">
+      <label
+        >Width: <input id="width" type="number" min="1" max="100" value="14"
+      /></label>
+      <label
+        >Height: <input id="height" type="number" min="1" max="100" value="25"
+      /></label>
+      <button id="clear-button">Clear</button>
+      <button id="done-button">Done</button>
+    </div>
     <div class="mosaic-container">
       <div id="mosaic"></div>
     </div>
@@ -12,6 +22,7 @@
       <div>
         <audio id="sound-player" src="spikes.mp3" loop></audio>
         <label>Sound? <input type="checkbox" id="sound-checkbox" /></label>
+        <button id="edit-button">Edit</button>
       </div>
     </div>
     <script src="mosaic.js"></script>
